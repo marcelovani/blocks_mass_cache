@@ -1,0 +1,127 @@
+<?php
+/**
+ * @file
+ * Blocks simple cache.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function blocks_simple_cache_menu() {
+  $items = array();
+
+  $items['admin/structure/block/simplecache'] = array(
+    'title' => 'Cache Settings',
+    'description' => 'Settings for Blocks Simple Cache',
+    'page callback' => 'drupal_get_form',
+  	'access callback' => 'user_access',
+    'access arguments' => array('administer site configuration'),
+    'page arguments' => array('blocks_simple_cache_settings_form'),
+    'type' => MENU_LOCAL_TASK,
+  );
+  
+  return $items;
+}
+
+/**
+ * Module settings
+ */
+function blocks_simple_cache_settings_form($form_id, $form_state) {
+  global $theme_key;
+  
+  // populate all blocks for the current theme
+  module_load_include('inc', 'block', 'block.admin');
+  drupal_theme_initialize();
+  if (!isset($theme)) {
+    // If theme is not specifically set, rehash for the current theme.
+    $theme = $theme_key;
+  }
+  // get block list
+  $block_list = block_admin_display_prepare_blocks($theme);
+  
+  // build the form
+  $form['blocks_simple_cache_enabled'] = array(
+    '#type' => 'checkbox',
+    '#title' => 'Enable global cache for blocks (per page).',
+    '#default_value' => variable_get('blocks_simple_cache_enabled', TRUE),
+  	'#weight' => -1,
+  );
+  $form['blocks_simple_cache_exception_list'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Global Cache Exception List'),
+  	'#weight' => 0,
+  );
+  $form['blocks_simple_cache_exception_list']['description'] = array(
+    '#markup' => t("All blocks are set to be cached globally, per page, tick the blocks that are not supposed to be cached globally."),
+  );    
+  
+  // load stored list of exceptions
+  $exception_list = variable_get('blocks_simple_cache_exception_list', array());
+
+  $options = array();
+  
+  // load system blocks
+  foreach ($block_list as $block) {
+    // build block id string
+    $bid = $block['module'] . '-' . $block['delta'];
+    $options[$bid] = $block['info'];
+  }
+
+  // Display entities to choose to fine-tune setting
+  $form['blocks_simple_cache_exception_list']['blocks_simple_cache_exception_list'] = array(
+    '#type' => 'checkboxes',
+    '#options' => $options,
+    '#default_value' => $exception_list,
+  );  
+  
+  return system_settings_form($form);
+}
+
+/**
+ * Implementation of hook_block_info_alter().
+ */
+function blocks_simple_cache_block_info_alter(&$blocks, $theme, $code_blocks) {
+  _blocks_simple_cache_set_cache($blocks);
+}
+
+/**
+ * Implements hook_context_block_info_alter().
+ */
+function blocks_simple_cache_context_block_info_alter(&$blocks) {
+  _blocks_simple_cache_set_cache($blocks);
+}
+
+function _blocks_simple_cache_set_cache(&$blocks) {
+  // check if drupal's block caching is enabled
+  if (variable_get('block_cache', FALSE)) {
+    // check if blocks simple cache is enabled
+    if (variable_get('blocks_simple_cache_enabled', FALSE)) {
+      // get list of exceptions
+      $exception_list = variable_get('blocks_simple_cache_exception_list', array());
+      
+      // loop through blocks
+      foreach ($blocks as $module => $block) {
+        // check if block is array (drupal's default)
+        if (is_array($block)) {       
+          foreach ($blocks[$module] as $key => $block_content) {
+            $bid = $block_content['module'] . '-' . $block_content['delta'];
+            // check if the block is listed in the exception list
+            if ((!isset($exception_list[$bid]) || (isset($exception_list[$bid])) && $exception_list[$bid] == FALSE)) {
+              // set global caching
+              $blocks[$module][$key]['cache'] = DRUPAL_CACHE_PER_PAGE;
+            }
+          }
+        }
+        // check if block is object (context's module)
+        if (is_object($block)) {
+          $bid = $block->module . '-' . $block->delta;
+          // check if the block is listed in the exception list
+          if ((!isset($exception_list[$bid]) || (isset($exception_list[$bid])) && $exception_list[$bid] == FALSE)) {
+            // set global caching    
+            $blocks[$bid]->cache = DRUPAL_CACHE_PER_PAGE;
+          }
+        }
+      }
+    }
+  }
+} 
