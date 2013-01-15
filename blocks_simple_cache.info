@@ -1,4 +1,0 @@
-name = Blocks Simple Cache
-description = "Set global caching for blocks."
-core = 7.x
-package = Caching

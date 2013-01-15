@@ -1,1 +1,5 @@
 name = Blocks mass cache
+description = "Set global caching for blocks."
+core = 7.x
+package = Caching
+
