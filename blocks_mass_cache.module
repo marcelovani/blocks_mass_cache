@@ -49,7 +49,7 @@ function blocks_mass_cache_context_block_info_alter(&$blocks) {
 }
 
 /**
- * _blocks_mass_cache_set_cache().
+ * Function _blocks_mass_cache_set_cache().
  * 
  * Helper function to set cache.
  */
