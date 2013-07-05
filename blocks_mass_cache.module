@@ -49,9 +49,9 @@ function blocks_mass_cache_context_block_info_alter(&$blocks) {
 }
 
 /**
- * Helper function to set cache accordingly.
+ * _blocks_mass_cache_set_cache().
  * 
- * @param $blocks array of blocks from Drupal core or object from context module.
+ * Helper function to set cache.
  */
 function _blocks_mass_cache_set_cache(&$blocks) {
   // Check if drupal's block caching is enabled.
