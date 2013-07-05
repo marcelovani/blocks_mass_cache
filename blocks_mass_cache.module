@@ -25,7 +25,7 @@ function blocks_mass_cache_menu() {
 }
 
 /**
- * Implementation of hook_help().
+ * Implements hook_help().
  */
 function blocks_mass_cache_help($path, $arg) {
   switch ($path) {
@@ -35,7 +35,7 @@ function blocks_mass_cache_help($path, $arg) {
 }
 
 /**
- * Implementation of hook_block_info_alter().
+ * Implements hook_block_info_alter().
  */
 function blocks_mass_cache_block_info_alter(&$blocks, $theme, $code_blocks) {
   _blocks_mass_cache_set_cache($blocks);
@@ -50,7 +50,8 @@ function blocks_mass_cache_context_block_info_alter(&$blocks) {
 
 /**
  * Helper function to set cache accordingly.
- * @param $blocks.
+ * 
+ * @param $blocks array of blocks from Drupal core or object from context module.
  */
 function _blocks_mass_cache_set_cache(&$blocks) {
   // Check if drupal's block caching is enabled.

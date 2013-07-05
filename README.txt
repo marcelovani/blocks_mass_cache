@@ -17,4 +17,5 @@ Configuration
 Visit /admin/structure/block/mass-cache
 or menus: Structure > Blocks > Mass Cache settings
 
-Tick the option to enable it and select the blocks you do not want to apply mass caching.
+Tick the option to enable it and select the blocks you 
+do not want to apply mass caching.
