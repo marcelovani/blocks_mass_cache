@@ -5,6 +5,16 @@
  */
 
 /**
+ * Implements hook_init().
+ */
+function blocks_mass_cache_init() {
+  // Add css in debug mode.
+  if (variable_get('blocks_mass_cache_debug', FALSE)) {
+    drupal_add_css('.blocks-mass-cache-page {border:1px solid green; padding: -1px} .blocks-mass-cache-ignore {border:1px solid red;}', array('group' => CSS_THEME, 'type' => 'inline'));
+  }
+}
+
+/**
  * Implements hook_menu().
  */
 function blocks_mass_cache_menu() {
@@ -68,7 +78,7 @@ function _blocks_mass_cache_set_cache(&$blocks) {
           foreach ($blocks[$module] as $key => $block_content) {
             $bid = $block_content['module'] . '-' . $block_content['delta'];
             // Check if the block is listed in the exception list.
-            if ((!isset($exception_list[$bid]) || (isset($exception_list[$bid])) && $exception_list[$bid] == FALSE)) {
+            if (!isset($exception_list[$bid]) || (isset($exception_list[$bid]) && $exception_list[$bid] == FALSE)) {
               // Set global caching.
               $blocks[$module][$key]['cache'] = DRUPAL_CACHE_PER_PAGE;
             }
@@ -76,14 +86,37 @@ function _blocks_mass_cache_set_cache(&$blocks) {
         }
         // Check if block is object (context's module).
         if (is_object($block)) {
-          $bid = $block->module . '-' . $block->delta;
+          $bid = $block->module . '-' . $block->delta;         
           // Check if the block is listed in the exception list.
-          if ((!isset($exception_list[$bid]) || (isset($exception_list[$bid])) && $exception_list[$bid] == FALSE)) {
+          if (!isset($exception_list[$bid]) || (isset($exception_list[$bid]) && $exception_list[$bid] == FALSE)) {
             // Set global caching.
             $blocks[$bid]->cache = DRUPAL_CACHE_PER_PAGE;
           }
         }
       }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_block().
+ */
+function blocks_mass_cache_preprocess_block(&$vars) {
+  if (variable_get('blocks_mass_cache_debug', FALSE)) {
+  	$cache = FALSE;
+  	if (isset($vars['elements']['#block'])) {
+      $block = &$vars['elements']['#block'];
+      if (is_array($block)) {
+      	$cache = $block['cache'];
+      }
+      if (is_object($block)) {
+      	$cache = $block->cache;
+      }
+  	}
+    if ($cache == DRUPAL_CACHE_PER_PAGE) {
+      $vars['classes_array'][] = 'blocks-mass-cache-page';
+    } else {
+      $vars['classes_array'][] = 'blocks-mass-cache-ignore';
     }
   }
 }

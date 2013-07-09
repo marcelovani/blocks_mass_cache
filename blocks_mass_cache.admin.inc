@@ -30,7 +30,14 @@ function blocks_mass_cache_admin_settings_form($form_id, $form_state) {
   $form['blocks_mass_cache_enabled'] = array(
     '#type' => 'checkbox',
     '#title' => 'Enable global cache for blocks (per page).',
-    '#default_value' => variable_get('blocks_mass_cache_enabled', TRUE),
+    '#default_value' => variable_get('blocks_mass_cache_enabled', FALSE),
+    '#weight' => -2,
+  );
+  $form['blocks_mass_cache_debug'] = array(
+    '#type' => 'checkbox',
+    '#title' => 'Debug mode.',
+    '#default_value' => variable_get('blocks_mass_cache_debug', FALSE),
+    '#description' => 'Debug mode will add a green border on blocks affected, a red block to blocks ignored',
     '#weight' => -1,
   );
   $form['blocks_mass_cache_exception_list'] = array(
@@ -55,11 +62,31 @@ function blocks_mass_cache_admin_settings_form($form_id, $form_state) {
   }
 
   // Display entities to choose to fine-tune setting.
-  $form['blocks_mass_cache_exception_list']['block_mass_cache_exception_list'] = array(
+  $form['blocks_mass_cache_exception_list']['blocks_mass_cache_exception_list'] = array(
     '#type' => 'checkboxes',
     '#options' => $options,
     '#default_value' => $exception_list,
   );
 
-  return system_settings_form($form);
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+  );
+
+  return $form;
+}
+
+/**
+ * Implements hook_form_submit().
+ */
+function blocks_mass_cache_admin_settings_form_submit($form_id, $form_state) {
+  // Save settings.
+  variable_set('blocks_mass_cache_enabled', $form_state['values']['blocks_mass_cache_enabled']);
+  variable_set('blocks_mass_cache_debug', $form_state['values']['blocks_mass_cache_debug']);
+  variable_set('blocks_mass_cache_exception_list', $form_state['values']['blocks_mass_cache_exception_list']);
+
+  // Clear blocks cache.
+  cache_clear_all('*', 'cache_block', TRUE);
+
+  drupal_set_message(t('Cache settings have been saved. Blocks cache has been cleaned.'));
 }
