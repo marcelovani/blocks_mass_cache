@@ -10,7 +10,7 @@
 function blocks_mass_cache_init() {
   // Add css in debug mode.
   if (variable_get('blocks_mass_cache_debug', FALSE)) {
-    drupal_add_css('.blocks-mass-cache-page {border:1px solid green; padding: -1px} .blocks-mass-cache-ignore {border:1px solid red;}', array('group' => CSS_THEME, 'type' => 'inline'));
+    drupal_add_css('.blocks-mass-cache-page {border:1px solid green!important;} .blocks-mass-cache-ignore {border:1px solid red!important;}', array('group' => CSS_THEME, 'type' => 'inline'));
   }
 }
 
