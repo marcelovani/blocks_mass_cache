@@ -29,15 +29,16 @@ function blocks_mass_cache_admin_settings_form($form_id, $form_state) {
   // Build the form.
   $form['blocks_mass_cache_enabled'] = array(
     '#type' => 'checkbox',
-    '#title' => 'Enable global cache for blocks (per page).',
+    '#title' => t('Enable global cache for blocks (per page)'),
     '#default_value' => variable_get('blocks_mass_cache_enabled', FALSE),
     '#weight' => -2,
   );
   $form['blocks_mass_cache_debug'] = array(
     '#type' => 'checkbox',
-    '#title' => 'Debug mode.',
+    '#title' => t('Debug mode'),
     '#default_value' => variable_get('blocks_mass_cache_debug', FALSE),
-    '#description' => 'Debug mode will add a green border on blocks affected, a red block to blocks ignored',
+    '#description' => t('Adds a Green border on blocks that are cached "Per Page", 
+                       a Red border for other cache types, including "No Cache".'),
     '#weight' => -1,
   );
   $form['blocks_mass_cache_exception_list'] = array(
@@ -85,8 +86,6 @@ function blocks_mass_cache_admin_settings_form_submit($form_id, $form_state) {
   variable_set('blocks_mass_cache_debug', $form_state['values']['blocks_mass_cache_debug']);
   variable_set('blocks_mass_cache_exception_list', $form_state['values']['blocks_mass_cache_exception_list']);
 
-  // Clear blocks cache.
-  cache_clear_all('*', 'cache_block', TRUE);
-
-  drupal_set_message(t('Cache settings have been saved. Blocks cache has been cleaned.'));
+  drupal_set_message(t('Cache settings have been saved.'));
+  drupal_set_message(t('Please clear the cache manually.'), 'warning');
 }
