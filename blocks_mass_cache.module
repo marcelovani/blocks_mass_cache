@@ -78,7 +78,7 @@ function _blocks_mass_cache_set_cache(&$blocks) {
           foreach ($blocks[$module] as $key => $block_content) {
             $bid = $block_content['module'] . '-' . $block_content['delta'];
             // Check if the block is listed in the exception list.
-            if (empty($exception_list[$bid]) || empty($exception_list[$bid])) {
+            if (empty($exception_list[$bid])) {
               // Set global caching.
               $blocks[$module][$key]['cache'] = DRUPAL_CACHE_PER_PAGE;
             }
@@ -88,7 +88,7 @@ function _blocks_mass_cache_set_cache(&$blocks) {
         if (is_object($block)) {
           $bid = $block->module . '-' . $block->delta;         
           // Check if the block is listed in the exception list.
-          if (empty($exception_list[$bid]) || empty($exception_list[$bid])) {
+          if (empty($exception_list[$bid])) {
             // Set global caching.
             $blocks[$bid]->cache = DRUPAL_CACHE_PER_PAGE;
           }
