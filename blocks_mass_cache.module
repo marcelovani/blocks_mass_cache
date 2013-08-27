@@ -76,7 +76,7 @@ function _blocks_mass_cache_set_cache(&$blocks) {
         }
         // Check if block is object (context's module).
         if (is_object($block)) {
-          $bid = $block->module . '-' . $block->delta;         
+          $bid = $block->module . '-' . $block->delta;
           // Check if the block is listed in the exception list.
           if (empty($exception_list[$bid])) {
             // Set global caching.
@@ -106,7 +106,8 @@ function blocks_mass_cache_preprocess_block(&$vars) {
     }
     if ($cache == DRUPAL_CACHE_PER_PAGE) {
       $vars['classes_array'][] = 'blocks-mass-cache-page';
-    } else {
+    }
+    else {
       $vars['classes_array'][] = 'blocks-mass-cache-ignore';
     }
   }
