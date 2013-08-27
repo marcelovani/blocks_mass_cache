@@ -87,5 +87,5 @@ function blocks_mass_cache_admin_settings_form_submit($form_id, $form_state) {
   variable_set('blocks_mass_cache_exception_list', $form_state['values']['blocks_mass_cache_exception_list']);
 
   drupal_set_message(t('Cache settings have been saved.'));
-  drupal_set_message(t('Please clear the cache manually.'), 'warning');
+  drupal_set_message(t('Please clear the cache manually, so that the configuration will take effect on blocks.'), 'warning');
 }

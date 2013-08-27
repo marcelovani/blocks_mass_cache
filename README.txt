@@ -23,7 +23,8 @@ DO NOT want to apply mass caching.
 Also, make sure that "Cache Blocks" is enabled on
 Configuration > Development > Performance
 
+Flush blocks cache or all caches
+
 IMPORTANT: In Drupal, blocks are not cached if you are logged in 
 as admin (user id 1), so make sure you test blocks caching with 
 an user different than user 1 or as anonymous.
-

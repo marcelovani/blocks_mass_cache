@@ -5,16 +5,6 @@
  */
 
 /**
- * Implements hook_init().
- */
-function blocks_mass_cache_init() {
-  // Add css in debug mode.
-  if (variable_get('blocks_mass_cache_debug', FALSE)) {
-    drupal_add_css('.blocks-mass-cache-page {border:1px solid green!important;} .blocks-mass-cache-ignore {border:1px solid red!important;}', array('group' => CSS_THEME, 'type' => 'inline'));
-  }
-}
-
-/**
  * Implements hook_menu().
  */
 function blocks_mass_cache_menu() {
@@ -103,16 +93,17 @@ function _blocks_mass_cache_set_cache(&$blocks) {
  */
 function blocks_mass_cache_preprocess_block(&$vars) {
   if (variable_get('blocks_mass_cache_debug', FALSE)) {
-  	$cache = FALSE;
-  	if (isset($vars['elements']['#block'])) {
+    drupal_add_css('.blocks-mass-cache-page {border:1px solid green!important;} .blocks-mass-cache-ignore {border:1px solid red!important;}', array('group' => CSS_THEME, 'type' => 'inline'));
+    $cache = FALSE;
+    if (isset($vars['elements']['#block'])) {
       $block = &$vars['elements']['#block'];
       if (is_array($block)) {
-      	$cache = $block['cache'];
+        $cache = $block['cache'];
       }
       if (is_object($block)) {
-      	$cache = $block->cache;
+        $cache = $block->cache;
       }
-  	}
+    }
     if ($cache == DRUPAL_CACHE_PER_PAGE) {
       $vars['classes_array'][] = 'blocks-mass-cache-page';
     } else {
