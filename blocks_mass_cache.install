@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Install file.
+ */
+
+// @todo create uninstall hook to delete old variables
