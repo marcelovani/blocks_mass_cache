@@ -2,32 +2,28 @@ Module: Blocks Mass Cache
 
 Description
 ===========
-Set global caching for blocks as "Per page".
-It is possible to choose which blocks you do not want to be affected, 
-keeping the original cache settings.
+Fine tuning for blocks cache. It is possible to select the
+type of cache for each block.
 
 Installation
 ============
 Copy the module directory in to your Drupal:
 /sites/all/modules directory as usual.
 
+Enable Blocks Mass cache and Blocks Mass Cache Admin UI
+for development environments.
 
 Configuration
 ====================================================
 Visit /admin/structure/block/mass-cache
-or via menus: Structure > Blocks > Mass Cache settings
+or via menus: Structure > Blocks > Mass Cache
 
-Tick the option to enable it and select the blocks you
-DO NOT want to apply mass caching.
+Tick the boxes. It's possible to have combinations of
+Role + Page / User + Page.
 
-Also, make sure that "Cache Blocks" is enabled on
+Make sure that "Cache Blocks" is enabled on
 Configuration > Development > Performance
-
-Flush blocks cache or all caches
 
 IMPORTANT: In Drupal, blocks are not cached if you are logged in 
 as admin (user id 1), so make sure you test blocks caching with 
 an user different than user 1 or as anonymous.
-
-
-@TODO update this file.
