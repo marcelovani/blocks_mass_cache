@@ -93,3 +93,68 @@ function blocks_mass_cache_ui_admin_blocks_submit($form, &$form_state) {
   drupal_set_message(t('The changes have been saved.'));
 }
 
+/**
+ * Returns HTML for the blocks page.
+ *
+ * @param $variables
+ *   An as  sociative array containing:
+ *   - form: A render element representing the form.
+ */
+function theme_blocks_mass_cache_ui_admin_blocks($variables) {
+  $rows = array();
+  $form = $variables['form'];
+  $cache_types = _blocks_mass_cache_get_cache_types();
+
+  // Rows.
+  foreach (element_children($form['blocks']) as $key) {
+    $row = array();
+
+    // Display Module name.
+    if (is_numeric($key)) {
+      // @todo add button to show/hide module name row.
+      $row[] = array(
+        'data' => '<strong>' . drupal_render($form['blocks'][$key]) . '</strong>',
+        'class' => array('module'),
+        'id' => 'module-' . $form['blocks'][$key]['#id'],
+        'colspan' => count($form['cache_types']['#value']) + 1,
+      );
+    }
+    else {
+
+      // Display block row.
+      $row[] = array(
+        'data' => drupal_render($form['blocks'][$key]),
+        'class' => array('blocks'),
+        'id' => $key,
+      );
+      foreach (element_children($form['checkboxes']) as $cache_id) {
+        $form['checkboxes'][$cache_id][$key]['#title'] = $cache_types[$cache_id] . ': ' . $form['blocks'][$key]['#markup'];
+        $form['checkboxes'][$cache_id][$key]['#title_display'] = 'invisible';
+        $row[] = array(
+          'data' => drupal_render($form['checkboxes'][$cache_id][$key]),
+          'class' => array('checkbox', $key),
+        );
+      }
+    }
+    $rows[] = $row;
+  }
+
+  // Header.
+  $header[] = (t('Blocks'));
+  foreach (element_children($form['cache_types']) as $cache_id) {
+    $header[] = array(
+      'data' => drupal_render($form['cache_types'][$cache_id]), // . '<br/>(' . $cache_id . ')',
+      'class' => array('checkbox'),
+    );
+  }
+
+  $output = theme('table', array(
+        'header' => $header,
+        'rows' => $rows,
+        'attributes' => array('id' => 'blocks'),
+      )
+    ) . drupal_render_children($form);
+
+  return $output;
+}
+
