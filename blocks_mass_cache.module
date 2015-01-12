@@ -1,28 +1,8 @@
 <?php
 /**
  * @file
- * Blocks simple cache.
+ * Blocks Mass Cache Module.
  */
-
-/**
- * Implements hook_menu().
- */
-function blocks_mass_cache_menu() {
-  $items = array();
-
-  $items['admin/structure/block/mass-cache'] = array(
-    'title' => 'Mass Cache Settings',
-    'description' => 'Settings for Blocks Simple Cache',
-    'page callback' => 'drupal_get_form',
-    'access callback' => 'user_access',
-    'access arguments' => array('administer site configuration'),
-    'page arguments' => array('blocks_mass_cache_admin_settings_form'),
-    'type' => MENU_LOCAL_TASK,
-    'file' => 'blocks_mass_cache.admin.inc',
-  );
-
-  return $items;
-}
 
 /**
  * Implements hook_help().
@@ -30,7 +10,7 @@ function blocks_mass_cache_menu() {
 function blocks_mass_cache_help($path, $arg) {
   switch ($path) {
     case 'admin/structure/block/mass-cache':
-      return t('Blocks Mass Cache will set global caching for all your blocks.');
+      return t('Blocks Mass Cache allows fine tuning of blocks cache.');
   }
 }
 
