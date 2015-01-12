@@ -36,8 +36,8 @@ function blocks_mass_cache_ui_theme() {
 /**
  * Helper to return a list of blocks.
  *
- * @return
- *  List of blocks.
+ * @return array
+ *   List of blocks.
  */
 function _blocks_mass_cache_block_list() {
   global $theme_key;
@@ -46,12 +46,8 @@ function _blocks_mass_cache_block_list() {
   // Populate all blocks for the current theme.
   module_load_include('inc', 'block', 'block.admin');
   drupal_theme_initialize();
-  if (!isset($theme)) {
-    // If theme is not specifically set, rehash for the current theme.
-    $theme = $theme_key;
-  }
 
-  foreach (block_admin_display_prepare_blocks($theme) as $block) {
+  foreach (block_admin_display_prepare_blocks($theme_key) as $block) {
     $block_list[$block['module']][$block['delta']] = $block;
   }
   ksort($block_list);
@@ -62,11 +58,11 @@ function _blocks_mass_cache_block_list() {
 /**
  * Helper to generate a cache cid.
  *
- * @param
- *   Block array.
+ * @param array
+ *   Block.
  *
- * @return
- *    block cid.
+ * @return string
+ *    Block cid.
  */
 function _blocks_mass_cache_get_bid($block = array()) {
   return $block['module'] . '-' . $block['delta'];
@@ -78,7 +74,7 @@ function _blocks_mass_cache_get_bid($block = array()) {
  * @param $cache_types
  *   An array of Drupal cache types.
  *
- * @return
+ * @return array
  *   An array of blocks.
  */
 function _blocks_mass_cache_blocks_cache_config($cache_types = array()) {
@@ -96,7 +92,7 @@ function _blocks_mass_cache_blocks_cache_config($cache_types = array()) {
         if (isset($block_storage[$bid])) {
           $block_cache_config = $block_storage[$bid];
 
-          // Check if the cache is combined. i.e. DRUPAL_CACHE_PER_ROLE + DRUPAL_CACHE_PER_PAGE.
+          // Check if the cache is combined. i.e. Role + Page / User + Page.
           if ($block_cache_config > 0) {
             if ($block_cache_config & DRUPAL_CACHE_PER_ROLE) {
               $blocks_cache_config[DRUPAL_CACHE_PER_ROLE][$bid] = DRUPAL_CACHE_PER_ROLE;
@@ -127,12 +123,12 @@ function _blocks_mass_cache_blocks_cache_config($cache_types = array()) {
  */
 function _blocks_mass_cache_get_cache_types() {
   $cache_types = array(
-    DRUPAL_NO_CACHE => 'No Cache', // -1
-    DRUPAL_CACHE_CUSTOM => 'Custom', // -2
-    DRUPAL_CACHE_PER_ROLE => 'Per Role', // 0x0001
-    DRUPAL_CACHE_PER_USER => 'Per User', // 0x0002
-    DRUPAL_CACHE_PER_PAGE => 'Per Page', // 0x0004
-    DRUPAL_CACHE_GLOBAL => 'Global', // 0x0008
+    DRUPAL_NO_CACHE => 'No Cache',
+    DRUPAL_CACHE_CUSTOM => 'Custom',
+    DRUPAL_CACHE_PER_ROLE => 'Per Role',
+    DRUPAL_CACHE_PER_USER => 'Per User',
+    DRUPAL_CACHE_PER_PAGE => 'Per Page',
+    DRUPAL_CACHE_GLOBAL => 'Global',
   );
 
   return $cache_types;
