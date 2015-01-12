@@ -34,8 +34,8 @@ function blocks_mass_cache_ui_theme() {
 }
 
 /**
- * Helper to return a list of modules.
- * 
+ * Helper to return a list of blocks.
+ *
  * @return
  *  List of blocks.
  */
@@ -57,5 +57,18 @@ function _blocks_mass_cache_block_list() {
   ksort($block_list);
 
   return $block_list;
+}
+
+/**
+ * Helper to generate a cache cid.
+ *
+ * @param
+ *   Block array.
+ *
+ * @return
+ *    block cid.
+ */
+function _blocks_mass_cache_get_bid($block = array()) {
+  return $block['module'] . '-' . $block['delta'];
 }
 
