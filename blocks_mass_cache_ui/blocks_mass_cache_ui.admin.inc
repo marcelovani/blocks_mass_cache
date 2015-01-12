@@ -41,7 +41,7 @@ function blocks_mass_cache_ui_admin_blocks($form, $form_state, $rid = NULL) {
         '#description' => '',
       );
       foreach ($cache_types as $cache_id => $name) {
-        // Builds arrays for checked boxes for each role
+        // Builds arrays for checked boxes for each role.
         if (isset($blocks_cache_config[$cache_id][$bid]) && $blocks_cache_config[$cache_id][$bid] == $cache_id) {
           $status[$cache_id][$bid] = $bid;
         }
@@ -143,7 +143,7 @@ function theme_blocks_mass_cache_ui_admin_blocks($variables) {
   $header[] = (t('Blocks'));
   foreach (element_children($form['cache_types']) as $cache_id) {
     $header[] = array(
-      'data' => drupal_render($form['cache_types'][$cache_id]), // . '<br/>(' . $cache_id . ')',
+      'data' => drupal_render($form['cache_types'][$cache_id]),
       'class' => array('checkbox'),
     );
   }
@@ -157,4 +157,3 @@ function theme_blocks_mass_cache_ui_admin_blocks($variables) {
 
   return $output;
 }
-

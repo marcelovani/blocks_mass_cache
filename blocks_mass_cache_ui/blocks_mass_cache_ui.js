@@ -19,15 +19,19 @@
             jQuery("table#blocks" + " ." + block_name + " input:checkbox:not(." + class_name + ")").attr('checked', '');
             jQuery("table#blocks" + " ." + block_name + " input:checkbox." + class_name).attr('checked', 'checked');
             break;
+
           case "1":
             jQuery("table#blocks" + " ." + block_name + " input:checkbox:not(." + class_name + ", .rid-4)").attr('checked', '');
             break;
+
           case "2":
             jQuery("table#blocks" + " ." + block_name + " input:checkbox:not(." + class_name + ", .rid-4)").attr('checked', '');
             break;
+
           case "4":
             jQuery("table#blocks" + " ." + block_name + " input:checkbox:not(." + class_name + ", .rid-1, .rid-2)").attr('checked', '');
             break;
+
           default:
         }
       });
