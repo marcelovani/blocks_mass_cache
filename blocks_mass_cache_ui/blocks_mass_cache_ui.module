@@ -20,3 +20,16 @@ function blocks_mass_cache_ui_menu() {
   );
   return $items;
 }
+
+/**
+ * Implements hook_theme().
+ */
+function blocks_mass_cache_ui_theme() {
+  return array(
+    'blocks_mass_cache_ui_admin_blocks' => array(
+      'render element' => 'form',
+      'file' => 'blocks_mass_cache_ui.admin.inc',
+    ),
+  );
+}
+
