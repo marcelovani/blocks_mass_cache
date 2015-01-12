@@ -72,3 +72,52 @@ function _blocks_mass_cache_get_bid($block = array()) {
   return $block['module'] . '-' . $block['delta'];
 }
 
+/**
+ * Get the list of blocks with cache settings.
+ *
+ * @param $cache_types
+ *   An array of Drupal cache types.
+ *
+ * @return
+ *   An array of blocks.
+ */
+function _blocks_mass_cache_blocks_cache_config($cache_types = array()) {
+  $blocks_cache_config = array();
+  $block_storage = variable_get('blocks_mass_cache_storage', array());
+  $block_list = _blocks_mass_cache_block_list();
+
+  foreach ($cache_types as $cache_id => $name) {
+    foreach ($block_list as $block_group) {
+      foreach ($block_group as $block) {
+        $cache_type = $block['cache'];
+        $bid = _blocks_mass_cache_get_bid($block);
+        $blocks_cache_config[$cache_id][$bid] = $cache_type;
+
+        if (isset($block_storage[$bid])) {
+          $block_cache_config = $block_storage[$bid];
+
+          // Check if the cache is combined. i.e. DRUPAL_CACHE_PER_ROLE + DRUPAL_CACHE_PER_PAGE.
+          if ($block_cache_config > 0) {
+            if ($block_cache_config & DRUPAL_CACHE_PER_ROLE) {
+              $blocks_cache_config[DRUPAL_CACHE_PER_ROLE][$bid] = DRUPAL_CACHE_PER_ROLE;
+            }
+            if ($block_cache_config & DRUPAL_CACHE_PER_USER) {
+              $blocks_cache_config[DRUPAL_CACHE_PER_USER][$bid] = DRUPAL_CACHE_PER_USER;
+            }
+            if ($block_cache_config & DRUPAL_CACHE_PER_PAGE) {
+              $blocks_cache_config[DRUPAL_CACHE_PER_PAGE][$bid] = DRUPAL_CACHE_PER_PAGE;
+            }
+          }
+          $blocks_cache_config[$cache_type][$bid] = $block_cache_config;
+        }
+        else {
+          // If the block has no settings, set to No cache.
+          $blocks_cache_config[$cache_type][$bid] = "-1";
+        }
+
+      }
+    }
+  }
+
+  return $blocks_cache_config;
+}
