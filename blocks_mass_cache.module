@@ -2,6 +2,7 @@
 /**
  * @file
  * Blocks Mass Cache Module.
+ * @TODO Allow blocks to have custom cache expiration.
  */
 
 /**

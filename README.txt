@@ -28,3 +28,6 @@ Flush blocks cache or all caches
 IMPORTANT: In Drupal, blocks are not cached if you are logged in 
 as admin (user id 1), so make sure you test blocks caching with 
 an user different than user 1 or as anonymous.
+
+
+@TODO update this file.
