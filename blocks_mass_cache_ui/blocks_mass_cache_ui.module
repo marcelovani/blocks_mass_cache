@@ -112,7 +112,8 @@ function _blocks_mass_cache_blocks_cache_config($cache_types = array()) {
         }
         else {
           // If the block has no settings, set to No cache.
-          $blocks_cache_config[$cache_type][$bid] = "-1";
+          // @todo move this to the form submit handler.
+          // $blocks_cache_config[$cache_type][$bid] = "-1";
         }
 
       }
