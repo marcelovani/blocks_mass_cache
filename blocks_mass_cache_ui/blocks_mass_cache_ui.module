@@ -33,3 +33,29 @@ function blocks_mass_cache_ui_theme() {
   );
 }
 
+/**
+ * Helper to return a list of modules.
+ * 
+ * @return
+ *  List of blocks.
+ */
+function _blocks_mass_cache_block_list() {
+  global $theme_key;
+  $block_list = array();
+
+  // Populate all blocks for the current theme.
+  module_load_include('inc', 'block', 'block.admin');
+  drupal_theme_initialize();
+  if (!isset($theme)) {
+    // If theme is not specifically set, rehash for the current theme.
+    $theme = $theme_key;
+  }
+
+  foreach (block_admin_display_prepare_blocks($theme) as $block) {
+    $block_list[$block['module']][$block['delta']] = $block;
+  }
+  ksort($block_list);
+
+  return $block_list;
+}
+
