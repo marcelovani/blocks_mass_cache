@@ -1,0 +1,4 @@
+name = Blocks Mass Cache UI
+description = UI for Blocks Mass Cache module.
+package = Caching
+core = 7.x
