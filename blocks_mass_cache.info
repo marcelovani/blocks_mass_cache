@@ -1,5 +1,5 @@
 name = Blocks Mass Cache
-description = "Set global caching for blocks."
+description = "Fine tuning of blocks cache."
 core = 7.x
 package = Caching
 configure = admin/structure/block/mass-cache
