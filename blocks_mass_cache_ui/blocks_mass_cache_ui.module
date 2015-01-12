@@ -127,12 +127,12 @@ function _blocks_mass_cache_blocks_cache_config($cache_types = array()) {
  */
 function _blocks_mass_cache_get_cache_types() {
   $cache_types = array(
-    DRUPAL_NO_CACHE => 'No Cache',       // -1
-    DRUPAL_CACHE_CUSTOM => 'Custom',     // -2
+    DRUPAL_NO_CACHE => 'No Cache', // -1
+    DRUPAL_CACHE_CUSTOM => 'Custom', // -2
     DRUPAL_CACHE_PER_ROLE => 'Per Role', // 0x0001
     DRUPAL_CACHE_PER_USER => 'Per User', // 0x0002
     DRUPAL_CACHE_PER_PAGE => 'Per Page', // 0x0004
-    DRUPAL_CACHE_GLOBAL => 'Global',     // 0x0008
+    DRUPAL_CACHE_GLOBAL => 'Global', // 0x0008
   );
 
   return $cache_types;
