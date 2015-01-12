@@ -68,3 +68,28 @@ function blocks_mass_cache_ui_admin_blocks($form, $form_state, $rid = NULL) {
   return $form;
 }
 
+/**
+ * Save settings.
+ */
+function blocks_mass_cache_ui_admin_blocks_submit($form, &$form_state) {
+  $cache_values = array();
+
+  foreach ($form_state['values']['cache_types'] as $cache_id => $name) {
+    foreach ($form_state['values'][$cache_id] as $block_id => $value) {
+      if ($value != FALSE) {
+        if (!isset($cache_values[$block_id])) {
+          $cache_values[$block_id] = $cache_id;
+        }
+        else {
+          // Add up cache types.
+          $cache_values[$block_id] = $cache_values[$block_id] + $cache_id;
+        }
+      }
+    }
+  }
+
+  cache_clear_all();
+  variable_set('blocks_mass_cache_storage', $cache_values);
+  drupal_set_message(t('The changes have been saved.'));
+}
+
