@@ -1,0 +1,22 @@
+<?php
+/**
+ * @file
+ * Blocks Mass cache admin UI.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function blocks_mass_cache_ui_menu() {
+  // Permissions and role forms.
+  $items['admin/structure/block/mass-cache'] = array(
+    'title' => 'Mass Cache',
+    'description' => 'Settings for Blocks Mass Cache',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('blocks_mass_cache_ui_admin_blocks'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'blocks_mass_cache_ui.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+  return $items;
+}
