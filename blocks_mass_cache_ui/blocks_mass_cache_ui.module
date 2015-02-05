@@ -106,12 +106,11 @@ function _blocks_mass_cache_blocks_cache_config($cache_types = array()) {
           }
           $blocks_cache_config[$cache_type][$bid] = $block_cache_config;
         }
-        else {
-          // If the block has no settings, set to No cache.
-          // @todo move this to the form submit handler.
-          // $blocks_cache_config[$cache_type][$bid] = "-1";
-        }
 
+        // If the block has no settings, set to No cache.
+        if (!isset($blocks_cache_config[$cache_type][$bid])) {
+          $blocks_cache_config[$cache_type][$bid] = "-1";
+        }
       }
     }
   }
