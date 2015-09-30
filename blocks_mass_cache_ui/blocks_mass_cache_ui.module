@@ -164,7 +164,7 @@ function _blocks_mass_cache_get_block_placements($module, $delta) {
     }
   }
   if (!empty($regions)) {
-    $placements .= t('Core: ') . implode(', ', $regions);
+    $placements .= t('Core: ') . implode(', ', $regions) . ' ';
   }
 
   // Context placements.
@@ -181,7 +181,7 @@ function _blocks_mass_cache_get_block_placements($module, $delta) {
     }
   }
   if (!empty($contexts)) {
-    $placements .= t('Context: ') . implode(', ', $contexts);
+    $placements .= t('Context: ') . implode(', ', $contexts) . ' ';
   }
 
   return $placements;
