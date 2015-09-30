@@ -29,7 +29,7 @@ function blocks_mass_cache_ui_admin_blocks($form, $form_state, $rid = NULL) {
 
     $form['blocks'][] = array(
       '#markup' => ucfirst($module_name),
-      '#id' => $module_name,
+      '#id' => drupal_html_id($module_name),
     );
 
     foreach ($block_group as $block => $item) {
