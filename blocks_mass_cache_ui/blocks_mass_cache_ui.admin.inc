@@ -35,10 +35,14 @@ function blocks_mass_cache_ui_admin_blocks($form, $form_state, $rid = NULL) {
     foreach ($block_group as $block => $item) {
       $bid = _blocks_mass_cache_get_bid($item);
       $options[$bid] = '';
+      $description = '';
+      if ($placements = _blocks_mass_cache_get_block_placements($item['module'], $item['delta'])) {
+        $description = t('Used in: @placements', array('@placements' => $placements));
+      }
       $form['blocks'][$bid] = array(
         '#type' => 'item',
         '#markup' => $item['info'] . '(' . $bid . ')',
-        '#description' => '',
+        '#description' => $description,
       );
       foreach ($cache_types as $cache_id => $name) {
         // Builds arrays for checked boxes for each role.
