@@ -41,7 +41,7 @@ function blocks_mass_cache_ui_admin_blocks($form, $form_state, $rid = NULL) {
       }
       $form['blocks'][$bid] = array(
         '#type' => 'item',
-        '#markup' => $item['info'] . '(' . $bid . ')',
+        '#markup' => $item['info'] . ' (' . $bid . ')',
         '#description' => $description,
       );
       foreach ($cache_types as $cache_id => $name) {
