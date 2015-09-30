@@ -24,11 +24,19 @@ function blocks_mass_cache_ui_admin_blocks($form, $form_state, $rid = NULL) {
   // Block cache configuration.
   $blocks_cache_config = _blocks_mass_cache_blocks_cache_config($cache_types);
 
+  // Get modules list.
+  $modules_list = cache_get('system_list', 'cache_bootstrap');
+
   $options = array();
   foreach (_blocks_mass_cache_block_list() as $module_name => $block_group) {
 
+    $name = ucfirst($module_name);
+    if (isset($modules_list->data['module_enabled'])) {
+      $name = $modules_list->data['module_enabled'][$module_name]->info['name'];
+    }
+
     $form['blocks'][] = array(
-      '#markup' => ucfirst($module_name),
+      '#markup' => $name,
       '#id' => drupal_html_id($module_name),
     );
 
