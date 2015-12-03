@@ -168,21 +168,22 @@ function _blocks_mass_cache_get_block_placements($module, $delta) {
   }
 
   // Context placements.
-  $contexts = array();
-  foreach (context_enabled_contexts() as $name => $context) {
-    if (isset($context->reactions['block'])) {
-      foreach ($context->reactions['block'] as $blocks) {
-        foreach ($blocks as $item) {
-          if ($item['module'] == $module && $item['delta'] == $delta) {
-            $contexts[] = $context->name;
+  if (module_exists('context')) {
+    $contexts = array();
+    foreach (context_enabled_contexts() as $name => $context) {
+      if (isset($context->reactions['block'])) {
+        foreach ($context->reactions['block'] as $blocks) {
+          foreach ($blocks as $item) {
+            if ($item['module'] == $module && $item['delta'] == $delta) {
+              $contexts[] = $context->name;
+            }
           }
         }
       }
     }
+    if (!empty($contexts)) {
+      $placements .= t('Context: ') . implode(', ', $contexts) . ' ';
+    }
   }
-  if (!empty($contexts)) {
-    $placements .= t('Context: ') . implode(', ', $contexts) . ' ';
-  }
-
   return $placements;
 }
